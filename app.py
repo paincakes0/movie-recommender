@@ -54,15 +54,17 @@ similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 st.title('Movie Recommender')
 
-selected_movie_name = st.selectbox('Enter a movie you like and discover 5 similar movies instantly.',
-                      movies['title'].values)
+selected_movie_name = st.selectbox(
+    'Which movie would you like to know recommendation for?',
+    options=[''] + list(movies['title'].values),
+    index=0)
 
-if st.button('Get recommendation'):
-    with st.spinner('Fetching recommendations...'):
-        names, poster = recommend(selected_movie_name)
+if st.button('Get recommendation', disabled=(selected_movie_name == '')):
+    names, poster = recommend(selected_movie_name)
     cols = st.columns(5)
     for idx, col in enumerate(cols):
         with col:
             st.text(names[idx])
             st.image(poster[idx])
+
 
