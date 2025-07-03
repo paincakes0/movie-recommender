@@ -3,6 +3,8 @@ import pickle
 import pandas as pd
 import requests
 import time
+import os
+import gdown
 
 def fetch_poster(movie_id):
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=7214d9dddd6bd497b2aefd97e7fe844b&language=en-US'
@@ -42,7 +44,13 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
+
+if not os.path.exists('similarity.pkl'):
+    url = 'https://drive.google.com/uc?id=13yPr36INevUChufCT1HvxofaaY5722nR'
+    gdown.download(url, 'similarity.pkl', quiet=False)
+
 similarity = pickle.load(open('similarity.pkl', 'rb'))
+
 
 st.title('Movie Recommender')
 
